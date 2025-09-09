@@ -5,7 +5,7 @@ import { createNote } from "@/lib/api";
 import { useId } from "react";
 import { type NewNote, type NoteTag } from "../../types/note";
 import { useRouter } from "next/navigation";
-import { useNoteStoreDraft } from "@/lib/stores/noteStore";
+import { useNoteStoreDraft } from "@/lib/store/noteStore";
 
 export default function NoteForm() {
   const queryClient = useQueryClient();
