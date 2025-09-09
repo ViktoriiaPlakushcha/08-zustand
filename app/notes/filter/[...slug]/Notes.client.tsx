@@ -7,9 +7,8 @@ import { fetchNotes } from "@/lib/api";
 import NoteList from "@/components/NoteList/NoteList";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
-import Modal from "@/components/Modal/Modal";
-import NoteForm from "@/components/NoteForm/NoteForm";
 import { NoteTag } from "@/types/note";
+import Link from "next/link";
 
 interface NotesClientProps {
   tag?: NoteTag;
@@ -18,7 +17,6 @@ interface NotesClientProps {
 function NotesClient({ tag }: NotesClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data, isError } = useQuery({
     queryKey: ["notes", searchQuery, tag ?? null, currentPage],
@@ -48,15 +46,6 @@ function NotesClient({ tag }: NotesClientProps) {
     }
   }, [isError]);
 
-  const handleOpen = () => {
-    setIsModalOpen(true);
-    document.body.style.overflow = "hidden";
-  };
-  const handleClose = () => {
-    setIsModalOpen(false);
-    document.body.style.overflow = "";
-  };
-
   const updateSearchQuery = useDebouncedCallback((value: string) => {
     setSearchQuery(value);
     setCurrentPage(1);
@@ -75,18 +64,13 @@ function NotesClient({ tag }: NotesClientProps) {
             />
           )}
           {
-            <button className={css.button} onClick={handleOpen}>
+            <Link href="/notes/action/create" className={css.button}>
               Create note +
-            </button>
+            </Link>
           }
         </header>
 
         <NoteList notes={data?.notes ?? []} />
-        {isModalOpen && (
-          <Modal onClose={handleClose}>
-            <NoteForm onClose={handleClose} />
-          </Modal>
-        )}
       </div>
     </>
   );

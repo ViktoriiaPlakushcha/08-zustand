@@ -36,7 +36,9 @@ export default function NoteList({ notes }: NoteListProps) {
             >
               View details
             </Link>
-            {isError && error && <p>Failed to delete note.${error.message}</p>}
+            {isError && error && (
+              <p>{`Failed to delete note.${error.message}`}</p>
+            )}
             <button className={css.button} onClick={() => mutate(note.id)}>
               Delete
             </button>
